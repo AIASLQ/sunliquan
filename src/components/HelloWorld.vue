@@ -15,7 +15,12 @@
       <el-table :data="listData" v-loading="fullscreenLoading" :header-cell-class-name="tableHeaderStyle" :cell-style="tableHeaderStyleCenter"element-loading-text="拼命加载中" border >
         <el-table-column prop="id" label="ID" width="100"></el-table-column>
         <el-table-column prop="title" label="标题" min-width="150"></el-table-column>
-        <el-table-column prop="created_time" label="创建时间" min-width="150"></el-table-column>
+        <el-table-column prop="" label="创建时间" min-width="150">
+          <template scope="scope">
+            <div>{{ scope.row.created_time | filterIime }}</div>
+          </template>
+
+        </el-table-column>
         <el-table-column prop="content" label="内容" min-width="150"></el-table-column>
         <el-table-column   label="一级类别" min-width="150"></el-table-column>
         <el-table-column   label="二级类别" min-width="150"></el-table-column>
@@ -29,6 +34,8 @@ import {
     // 数据列表接口
     getCurrentUserInfo,tableDataList
 } from "@/api/demo";
+import { formatTime } from "@/utils/index";
+
 
 export default {
   name: 'demo',
@@ -81,10 +88,9 @@ export default {
     },
     tableHeaderStyleCenter({row,column,rowIndex,columnIndex}){
       return 'text-align:center'
-    }
+    },
+    //时间处理
     
-
-
   },
   beforCreate() {
 
@@ -104,6 +110,11 @@ export default {
   },
   destroyed() {
 
+  },
+  filters:{
+    filterIime(val){
+    return formatTime(val)
+    }
   }
   
 }
